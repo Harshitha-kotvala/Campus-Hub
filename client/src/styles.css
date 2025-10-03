@@ -1,0 +1,49 @@
+:root{
+  --bg: #f7f9fc;
+  --bg-soft: #f1f5f9;
+  --card-bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --brand: #2563eb;
+  --brand-100: #dbeafe;
+  --brand-200: #bfdbfe;
+  --success-50: #dcfce7;
+  --success-200: #bbf7d0;
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(2,6,23,0.06), 0 1px 2px rgba(2,6,23,0.04);
+  --shadow-md: 0 10px 25px rgba(2,6,23,0.06), 0 4px 10px rgba(2,6,23,0.04);
+  --shadow-lg: 0 16px 40px rgba(2,6,23,0.10), 0 6px 20px rgba(2,6,23,0.06);
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 100% -10%, rgba(99,102,241,0.06), transparent 60%),
+    radial-gradient(1000px 600px at -10% 10%, rgba(59,130,246,0.07), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+main{ max-width: 1100px; margin: 0 auto; }
+
+.container{ max-width: 960px; margin: 0 auto; padding: 0 16px; }
+.card{ background: var(--card-bg); border:1px solid #e5e7eb; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.card.elevate{ box-shadow: var(--shadow-md); }
+
+.btn{ display:inline-block; border-radius: 10px; padding: 10px 16px; font-weight:700; text-decoration:none; transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease; }
+.btn-primary{ background: var(--brand); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,.22); }
+.btn-primary:hover{ transform: scale(1.04); box-shadow: 0 8px 18px rgba(37,99,235,.28); }
+.btn-outline{ color: var(--brand); border:1px solid var(--brand-200); background: transparent; box-shadow: 0 2px 8px rgba(2,6,23,.06); }
+.btn-outline:hover{ transform: scale(1.04); background: var(--brand-100); box-shadow: 0 6px 14px rgba(2,6,23,.12); }
+
+.input, .select, .textarea{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid #e5e7eb; outline:none; transition: box-shadow .15s ease, border-color .15s ease; }
+.input:focus, .select:focus, .textarea:focus{ border-color: var(--brand-200); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+
+.tag{ display:inline-block; padding: 4px 10px; border-radius: 9999px; background: #eef2ff; color:#3730a3; font-size:12px; margin-right:6px; }
+
+.nav-blur{ backdrop-filter: saturate(180%) blur(8px); background: rgba(255,255,255,0.75); border-bottom:1px solid rgba(226,232,240,0.8); }
+
+.footer{ color: var(--muted); font-size: 13px; }
