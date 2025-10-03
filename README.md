@@ -117,6 +117,3 @@ Auth middleware expects `Authorization: Bearer <token>` and verifies with `JWT_S
 - **Frontend**: `cd client && npm run build` → deploy `client/dist/` to static hosting.
 - **Backend**: deploy `server/` to your Node hosting provider; make sure to set env vars and connect to MongoDB.
 
-## License
-
-This project contains third-party packages under their respective licenses. The repository itself does not declare a license; add one if needed (e.g., MIT/ISC).
