@@ -17,6 +17,30 @@ const postSchema = new mongoose.Schema(
     numberOfRounds: { type: Number },
     numberOfProblems: { type: Number },
     tags: [{ type: String }],
+    topicTags: [{ type: String }],
+    rounds: [
+      new mongoose.Schema(
+        {
+          title: { type: String },
+          type: { type: String },
+          difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], required: false },
+          questions: [{ type: String }],
+          notes: { type: String },
+        },
+        { _id: false }
+      ),
+    ],
+    hiringType: { type: String, enum: ['On-Campus', 'Off-Campus'], required: false },
+    interviewDate: { type: Date },
+    resources: [{ type: String }],
+    // Newly added fields for extended Add Post form
+    statusVerdict: { type: String, enum: ['Selected', 'Rejected', 'Waitlisted'], required: false },
+    yearBatch: { type: String },
+    salary: { type: String }, // free-form e.g., '15 LPA' or '₹40,000/mo'
+    salaryVisibility: { type: String, enum: ['Public', 'Private'], required: false },
+    location: { type: String },
+    cgpaCutoff: { type: Number },
+    postAnonymously: { type: Boolean, default: false },
     createdByEmail: { type: String },
     createdByName: { type: String },
   },

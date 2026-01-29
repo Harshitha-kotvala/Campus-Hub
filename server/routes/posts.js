@@ -23,6 +23,18 @@ router.post('/', auth, async (req, res) => {
       numberOfRounds,
       numberOfProblems,
       tags,
+      topicTags,
+      rounds,
+      hiringType,
+      interviewDate,
+      resources,
+      statusVerdict,
+      yearBatch,
+      salary,
+      salaryVisibility,
+      location,
+      cgpaCutoff,
+      postAnonymously,
       createdByEmail,
       createdByName,
     } = req.body;
@@ -43,6 +55,26 @@ router.post('/', auth, async (req, res) => {
       numberOfRounds,
       numberOfProblems,
       tags: Array.isArray(tags) ? tags : [],
+      topicTags: Array.isArray(topicTags) ? topicTags : (topicTags ? [topicTags] : []),
+      rounds: Array.isArray(rounds)
+        ? rounds.map(r => ({
+            title: r.title,
+            type: r.type,
+            difficulty: r.difficulty,
+            questions: Array.isArray(r.questions) ? r.questions : (r.questions ? [r.questions] : []),
+            notes: r.notes,
+          }))
+        : [],
+      hiringType,
+      interviewDate,
+      resources: Array.isArray(resources) ? resources : (resources ? [resources] : []),
+      statusVerdict,
+      yearBatch,
+      salary,
+      salaryVisibility,
+      location,
+      cgpaCutoff,
+      postAnonymously: !!postAnonymously,
       createdByEmail: req.user?.email || createdByEmail,
       createdByName: req.user?.name || createdByName,
     });
@@ -77,6 +109,18 @@ router.put('/:id', auth, async (req, res) => {
       'numberOfRounds',
       'numberOfProblems',
       'tags',
+      'topicTags',
+      'rounds',
+      'hiringType',
+      'interviewDate',
+      'resources',
+      'statusVerdict',
+      'yearBatch',
+      'salary',
+      'salaryVisibility',
+      'location',
+      'cgpaCutoff',
+      'postAnonymously',
     ];
 
     const update = {};
@@ -90,6 +134,21 @@ router.put('/:id', auth, async (req, res) => {
     }
     if (update.tags && !Array.isArray(update.tags)) {
       update.tags = [update.tags].filter(Boolean);
+    }
+    if (update.topicTags && !Array.isArray(update.topicTags)) {
+      update.topicTags = [update.topicTags].filter(Boolean);
+    }
+    if (update.rounds && Array.isArray(update.rounds)) {
+      update.rounds = update.rounds.map(r => ({
+        title: r.title,
+        type: r.type,
+        difficulty: r.difficulty,
+        questions: Array.isArray(r.questions) ? r.questions : (r.questions ? [r.questions] : []),
+        notes: r.notes,
+      }));
+    }
+    if (update.resources && !Array.isArray(update.resources)) {
+      update.resources = [update.resources].filter(Boolean);
     }
 
     const updated = await Post.findByIdAndUpdate(id, update, { new: true });
