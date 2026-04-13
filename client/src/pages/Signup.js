@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,15 +8,29 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [passOutYear, setPassOutYear] = useState('');
   const [startYear, setStartYear] = useState('');
+  const [nameFocused, setNameFocused] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [startYearFocused, setStartYearFocused] = useState(false);
   const navigate = useNavigate();
 
+  // Auto-calculate pass-out year when start year changes
+  useEffect(() => {
+    if (startYear) {
+      setPassOutYear(parseInt(startYear) + 4);
+    } else {
+      setPassOutYear('');
+    }
+  }, [startYear]);
+
   const styles = {
-    container: { width: '45vw', maxWidth: '1400px', minWidth: '680px', margin: '24px auto', background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' },
+    container: { width: '7vw', maxWidth: '1400px', minWidth: '680px', margin: '24px auto', background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' },
     title: { fontSize: '24px', fontWeight: 800, color: '#111827', marginBottom: '12px', textAlign: 'center' },
     field: { display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' },
     label: { fontSize: '14px', color: '#374151' },
-    input: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb' },
-    button: { width: '100%', padding: '10px 14px', background: '#10b981', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' },
+    input: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
+    inputFocus: { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' },
+    button: { width: '100%', padding: '10px 14px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' },
     alt: { marginTop: '10px', fontSize: '14px', textAlign: 'center' },
   };
 
@@ -60,19 +74,19 @@ const Signup = () => {
       <form onSubmit={onSubmit}>
         <div style={styles.field}>
           <label style={styles.label}>Name</label>
-          <input style={styles.input} type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          <input style={{ ...styles.input, ...(nameFocused ? styles.inputFocus : {}) }} type="text" value={name} onChange={(e) => setName(e.target.value)} onFocus={() => setNameFocused(true)} onBlur={() => setNameFocused(false)} required />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Email</label>
-          <input style={styles.input} type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input style={{ ...styles.input, ...(emailFocused ? styles.inputFocus : {}) }} type="email" value={email} onChange={(e) => setEmail(e.target.value)} onFocus={() => setEmailFocused(true)} onBlur={() => setEmailFocused(false)} required />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Password</label>
-          <input style={styles.input} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input style={{ ...styles.input, ...(passwordFocused ? styles.inputFocus : {}) }} type="password" value={password} onChange={(e) => setPassword(e.target.value)} onFocus={() => setPasswordFocused(true)} onBlur={() => setPasswordFocused(false)} required />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Start Year</label>
-          <select style={styles.input} value={startYear} onChange={(e) => setStartYear(e.target.value)} required>
+          <select style={{ ...styles.input, ...(startYearFocused ? styles.inputFocus : {}) }} value={startYear} onChange={(e) => setStartYear(e.target.value)} onFocus={() => setStartYearFocused(true)} onBlur={() => setStartYearFocused(false)} required>
             <option value="" disabled>Select Start Year</option>
             {Array.from({ length: 6 }).map((_, idx) => {
               const year = new Date().getFullYear() - idx;
@@ -84,7 +98,13 @@ const Signup = () => {
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Pass-out Year</label>
-          <input style={styles.input} type="number" min="2000" max="2100" value={passOutYear} onChange={(e) => setPassOutYear(e.target.value)} required />
+          <input 
+            style={{ ...styles.input, backgroundColor: '#f9fafb', cursor: 'not-allowed' }} 
+            type="number" 
+            value={passOutYear} 
+            readOnly 
+            required 
+          />
         </div>
         {error && <div style={{ color: 'crimson', marginBottom: 10 }}>{error}</div>}
         <button type="submit" style={styles.button} disabled={loading}>{loading ? 'Signing up...' : 'Signup'}</button>

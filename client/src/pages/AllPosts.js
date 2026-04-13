@@ -13,10 +13,7 @@ const AllPosts = () => {
   const [filterCompany, setFilterCompany] = useState('');
   const [filterOutcome, setFilterOutcome] = useState('');
   const [filterExperience, setFilterExperience] = useState('');
-  const [showAICheatSheet, setShowAICheatSheet] = useState(false);
-  const [aiCheatSheetData, setAiCheatSheetData] = useState(null);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
+    const [searchFocused, setSearchFocused] = useState(false);
   const [companyFocused, setCompanyFocused] = useState(false);
   const [outcomeFocused, setOutcomeFocused] = useState(false);
   const [experienceFocused, setExperienceFocused] = useState(false);
@@ -44,30 +41,55 @@ const AllPosts = () => {
   }, [search]);
 
   const styles = {
-    page: { width: '100%', background: '#f8fafc', minHeight: 'calc(100vh - 60px)' },
-    container: { width: '86vw', maxWidth: '1200px', margin: '0 auto', padding: '8px 24px 24px' },
-    header: { margin: '8px 0 14px' },
-    title: { fontSize: '28px', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827' },
-    helper: { color: '#6b7280', marginTop: 6 },
-    layout: { display: 'grid', gridTemplateColumns: '280px 1fr', gap: 18, alignItems: 'start' },
-    sidebar: { position: 'sticky', top: 16, background: '#fff', borderRight: '1px solid #e5e7eb', padding: 16, height: 'calc(100vh - 120px)' },
-    sideTitle: { fontWeight: 800, color: '#111827', marginBottom: 10 },
-    field: { display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 },
-    label: { fontSize: 13, color: '#374151' },
-    input: { padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
-    select: { padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
+    page: { width: '100%', background: 'transparent', minHeight: 'calc(100vh - 60px)' },
+    container: { width: '100%', margin: '0', padding: '0' },
+    header: { margin: '0 0 16px' },
+    title: { fontSize: '28px', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.02em' },
+    helper: { color: '#64748b', marginTop: 6, fontSize: '13px' },
+    layout: { display: 'grid', gridTemplateColumns: '320px 1fr', gap: 16, alignItems: 'start' },
+    sidebar: { position: 'sticky', top: 16, background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: 20, height: 'calc(100vh - 100px)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' },
+    sideTitle: { fontSize: '18px', fontWeight: 600, color: '#0f172a', marginBottom: 12 },
+    section: { marginBottom: 16 },
+    separator: { height: '1px', background: '#e2e8f0', margin: '12px 0', border: 'none' },
+    field: { marginBottom: 12 },
+    label: { fontSize: '13px', color: '#64748b', marginBottom: 6, display: 'block' },
+    input: { 
+      padding: '10px 12px', 
+      borderRadius: 8, 
+      border: '1px solid #e5e7eb', 
+      outline: 'none', 
+      transition: 'border-color 160ms, box-shadow 160ms',
+      width: '100%',
+      maxWidth: '240px',
+      minWidth: '240px',
+      boxSizing: 'border-box',
+      flex: '1 1 auto'
+    }, 
+    select: { 
+      padding: '10px 12px', 
+      borderRadius: 8, 
+      border: '1px solid #e5e7eb', 
+      background: '#fff', 
+      outline: 'none', 
+      transition: 'border-color 160ms, box-shadow 160ms',
+      width: '100%',
+      maxWidth: '240px',
+      minWidth: '240px',
+      boxSizing: 'border-box',
+      flex: '1 1 auto'
+    },
     inputFocus: { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' },
-    list: { display: 'flex', flexDirection: 'column', gap: '16px' },
+    list: { display: 'flex', flexDirection: 'column', gap: '12px' },
     modalOverlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', display: 'grid', placeItems: 'center', zIndex: 1000 },
-    modal: { maxWidth: 640, width: '100%', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 24, boxShadow: '0 12px 30px rgba(2,6,23,0.06), 0 4px 12px rgba(2,6,23,0.04)' },
-    modalTitle: { fontSize: 22, fontWeight: 800, color: '#111827', marginBottom: 10 },
-    modalText: { color: '#4b5563', marginBottom: 16 },
+    modal: { maxWidth: 640, width: '100%', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: 24, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' },
+    modalTitle: { fontSize: '18px', fontWeight: 600, color: '#0f172a', marginBottom: 10 },
+    modalText: { fontSize: '15px', lineHeight: 1.6, color: '#64748b', marginBottom: 16 },
     actions: { display: 'flex', gap: 8, justifyContent: 'flex-end' },
-    primaryBtn: { padding: '8px 12px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, cursor: 'pointer' },
-    secondaryBtn: { padding: '8px 12px', background: '#f3f4f6', color: '#111827', border: '1px solid #e5e7eb', borderRadius: 8, fontWeight: 600, cursor: 'pointer' },
+    primaryBtn: { padding: '10px 18px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' },
+    secondaryBtn: { padding: '10px 18px', background: '#fff', color: '#0f172a', border: '1px solid #cbd5e1', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' },
   };
 
-  if (loading) return <div className="container" style={{ padding: '24px 16px' }}>Loading posts...</div>;
+  if (loading) return <div className="container" style={{ padding: '30px 16px' }}>Loading posts...</div>;
   if (error) return <div className="container" style={{ color: 'crimson', padding: '24px 16px' }}>Error: {error}</div>;
 
   const stored = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
@@ -106,52 +128,7 @@ const AllPosts = () => {
     }
   };
 
-  const handleGenerateAICheatSheet = async () => {
-    if (!filterCompany) return;
-    setAiLoading(true);
-    try {
-      // Simulate processing delay
-      await new Promise(r => setTimeout(r, 1200));
-      const companyPosts = posts.filter(p => p.company === filterCompany);
-      // Aggregate top 5 common questions from rounds
-      const allQuestions = companyPosts.flatMap(p =>
-        (p.rounds || []).flatMap(r => {
-          // Split by common delimiters and clean up
-            const raw = (r.questions || '').toString();
-            return raw.split(/[\n•;–—]/).map(q => q.trim()).filter(q => q.length > 10);
-          })
-        );
-      // Simple frequency count for demo (could be smarter in real AI)
-      const freq = {};
-      allQuestions.forEach(q => {
-        freq[q] = (freq[q] || 0) + 1;
-      });
-      const top5Questions = Object.entries(freq)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-        .map(([q]) => q);
-      // Compute average difficulty (1-5) from overallDifficulty if present
-      const difficulties = companyPosts.map(p => p.overallDifficulty).filter(d => typeof d === 'number' && d >= 1 && d <= 5);
-      const avgDifficulty = difficulties.length ? Math.round(difficulties.reduce((a, b) => a + b, 0) / difficulties.length * 10) / 10 : 0;
-      // Synthesize a pro preparation tip from preparationTips
-      const allTips = companyPosts.map(p => p.preparationTips).filter(Boolean).join(' ');
-      const proTip = allTips.length > 80
-        ? allTips.slice(0, 140) + '...'
-        : 'Focus on practicing LeetCode Medium/Hard, study past experiences, and research recent product launches.';
-      setAiCheatSheetData({
-        company: filterCompany,
-        top5Questions,
-        avgDifficulty,
-        proTip
-      });
-      setShowAICheatSheet(true);
-    } catch (e) {
-      alert('Failed to generate AI summary');
-    } finally {
-      setAiLoading(false);
-    }
-  };
-
+  
   const handleDelete = async (post) => {
     if (!window.confirm('Delete this post?')) return;
     try {
@@ -225,7 +202,9 @@ const AllPosts = () => {
           {/* Sidebar */}
           <aside style={styles.sidebar}>
             <div style={styles.sideTitle}>Search & Filters</div>
-            <div style={styles.field}>
+            
+            {/* Search Section */}
+            <div style={styles.section}>
               <label style={styles.label}>Search</label>
               <input
                 style={{
@@ -240,7 +219,11 @@ const AllPosts = () => {
                 placeholder="Search title, company, role..."
               />
             </div>
-            <div style={styles.field}>
+
+            <hr style={styles.separator} />
+
+            {/* Company Section */}
+            <div style={styles.section}>
               <label style={styles.label}>Company</label>
               <select style={{ ...styles.select, ...(companyFocused ? styles.inputFocus : {}) }} value={filterCompany} onChange={(e) => setFilterCompany(e.target.value)} onFocus={() => setCompanyFocused(true)} onBlur={() => setCompanyFocused(false)}>
                 <option value="">All companies</option>
@@ -249,7 +232,9 @@ const AllPosts = () => {
                 ))}
               </select>
             </div>
-            <div style={styles.field}>
+
+            {/* Outcome Section */}
+            <div style={styles.section}>
               <label style={styles.label}>Outcome</label>
               <select style={{ ...styles.select, ...(outcomeFocused ? styles.inputFocus : {}) }} value={filterOutcome} onChange={(e) => setFilterOutcome(e.target.value)} onFocus={() => setOutcomeFocused(true)} onBlur={() => setOutcomeFocused(false)}>
                 <option value="">Any</option>
@@ -258,7 +243,9 @@ const AllPosts = () => {
                 ))}
               </select>
             </div>
-            <div style={styles.field}>
+
+            {/* Experience Section */}
+            <div style={styles.section}>
               <label style={styles.label}>Experience Level</label>
               <select style={{ ...styles.select, ...(experienceFocused ? styles.inputFocus : {}) }} value={filterExperience} onChange={(e) => setFilterExperience(e.target.value)} onFocus={() => setExperienceFocused(true)} onBlur={() => setExperienceFocused(false)}>
                 <option value="">Any</option>
@@ -267,48 +254,37 @@ const AllPosts = () => {
                 ))}
               </select>
             </div>
-            {filterCompany && (
-              <button
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: 8,
-                  fontWeight: 700,
-                  cursor: aiLoading ? 'not-allowed' : 'pointer',
-                  boxShadow: '0 2px 8px rgba(102, 126, 234, 0.4)',
-                  transition: 'all 160ms ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6
-                }}
-                onClick={handleGenerateAICheatSheet}
-                disabled={aiLoading}
-              >
-                {aiLoading ? (
-                  <>
-                    <span style={{ width: 16, height: 16, border: '2px solid #fff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.6s linear infinite' }}></span>
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    ✨ Generate AI Summary
-                  </>
-                )}
-              </button>
-            )}
-            <div style={{ display: 'flex' }}>
-              <button style={{ ...styles.secondaryBtn, width: '100%' }} onClick={() => { setSearch(''); setDebouncedSearch(''); setFilterCompany(''); setFilterOutcome(''); setFilterExperience(''); }}>Clear Filters</button>
-            </div>
-          </aside>
 
-          {/* Main Feed */}
-          <main>
+            <hr style={styles.separator} />
+
+            {/* Clear Filters Button */}
+            <button
+              style={{
+                width: '100%',
+                padding: '8px 16px',
+                background: '#f8fafc',
+                color: '#64748b',
+                border: '1px solid #e2e8f0',
+                borderRadius: '8px',
+                fontSize: '13px',
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'all 160ms ease'
+              }}
+              onClick={() => {
+                setSearch('');
+                setDebouncedSearch('');
+                setFilterCompany('');
+                setFilterOutcome('');
+                setFilterExperience('');
+              }}
+            >
+              Clear All Filters
+            </button>
+          </aside>
+          <main style={styles.feed}>
             {(debouncedSearch.trim() || filterCompany || filterOutcome || filterExperience) && (
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#374151', marginBottom: 12 }}>
+              <div style={{ fontSize: '13px', fontWeight: 500, color: '#64748b', marginBottom: 8 }}>
                 {resultMessage()}
               </div>
             )}
@@ -327,12 +303,12 @@ const AllPosts = () => {
               {filtered.length === 0 && (
                 <div style={{
                   marginTop: 12,
-                  padding: 20,
+                  padding: 24,
                   textAlign: 'center',
                   background: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: 12,
-                  boxShadow: '0 2px 8px rgba(2,6,23,0.04)'
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '14px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -343,7 +319,7 @@ const AllPosts = () => {
                   <div style={{ fontSize: 18, fontWeight: 800, color: '#111827', marginBottom: 6 }}>No experiences found</div>
                   <div style={{ color: '#6b7280', marginBottom: 12 }}>Try adjusting your search or clear filters to see more results.</div>
                   <button
-                    style={{ padding: '8px 12px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, cursor: 'pointer' }}
+                    style={{ padding: '10px 18px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' }}
                     onClick={() => { setSearch(''); setDebouncedSearch(''); setFilterCompany(''); setFilterOutcome(''); setFilterExperience(''); }}
                   >
                     Clear Filters
@@ -377,42 +353,7 @@ const AllPosts = () => {
           </div>
         </div>
       )}
-      {showAICheatSheet && aiCheatSheetData && (
-        <div style={styles.modalOverlay} onClick={() => setShowAICheatSheet(false)}>
-          <div style={{ ...styles.modal, maxWidth: 680 }} onClick={(e) => e.stopPropagation()}>
-            <div style={styles.modalTitle}>✨ AI Cheat Sheet: {aiCheatSheetData.company}</div>
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontWeight: 700, color: '#111827', marginBottom: 8 }}>Top 5 Common Questions</div>
-              <ol style={{ paddingLeft: 20, marginBottom: 0, color: '#374151' }}>
-                {aiCheatSheetData.top5Questions.length ? aiCheatSheetData.top5Questions.map((q, i) => (
-                  <li key={i} style={{ marginBottom: 6 }}>{q}</li>
-                )) : <li style={{ color: '#9ca3af' }}>No questions found</li>}
-              </ol>
-            </div>
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontWeight: 700, color: '#111827', marginBottom: 8 }}>Average Difficulty</div>
-              <div style={{ display: 'flex', gap: 4, fontSize: 20 }}>
-                {[1,2,3,4,5].map(n => (
-                  <span key={n} style={{ color: n <= Math.round(aiCheatSheetData.avgDifficulty) ? '#fbbf24' : '#e5e7eb' }}>
-                    ★
-                  </span>
-                ))}
-                <span style={{ marginLeft: 8, fontSize: 14, color: '#6b7280' }}>
-                  ({aiCheatSheetData.avgDifficulty || 'N/A'} / 5)
-                </span>
-              </div>
-            </div>
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontWeight: 700, color: '#111827', marginBottom: 8 }}>Pro Preparation Tip</div>
-              <div style={{ color: '#374151', lineHeight: 1.6 }}>{aiCheatSheetData.proTip}</div>
-            </div>
-            <div style={styles.actions}>
-              <button style={styles.primaryBtn} onClick={() => setShowAICheatSheet(false)}>Got it</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
   );
 };
 

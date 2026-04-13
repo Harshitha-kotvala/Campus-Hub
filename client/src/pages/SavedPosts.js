@@ -18,19 +18,19 @@ const SavedPosts = () => {
 
   const LoginPrompt = () => (
     <div style={{ display: 'grid', placeItems: 'center', minHeight: '40vh' }}>
-      <div style={{ maxWidth: 640, width: '100%', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 24, boxShadow: '0 12px 30px rgba(2,6,23,0.06), 0 4px 12px rgba(2,6,23,0.04)' }}>
-        <div style={{ fontSize: 22, fontWeight: 800, color: '#111827', marginBottom: 10 }}>Login required</div>
-        <div style={{ color: '#4b5563', marginBottom: 16 }}>Please login to view your saved posts.</div>
+      <div style={{ maxWidth: 640, width: '100%', background: '#fff', border: '1px solid #e2e8f0', borderRadius: 14, padding: 24, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+        <div style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', marginBottom: 10 }}>Login required</div>
+        <div style={{ color: '#64748b', marginBottom: 16 }}>Please login to view your saved posts.</div>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
           <button
             onClick={() => navigate('/login', { state: { from: '/saved' } })}
-            style={{ padding: '10px 14px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, cursor: 'pointer' }}
+            style={{ padding: '10px 18px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' }}
           >
             Go to Login
           </button>
           <button
             onClick={() => navigate('/')}
-            style={{ padding: '10px 14px', background: '#f3f4f6', color: '#111827', border: '1px solid #e5e7eb', borderRadius: 8, fontWeight: 600, cursor: 'pointer' }}
+            style={{ padding: '10px 18px', background: '#fff', color: '#0f172a', border: '1px solid #cbd5e1', borderRadius: 10, fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' }}
           >
             Cancel
           </button>

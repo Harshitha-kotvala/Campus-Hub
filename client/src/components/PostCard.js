@@ -1,31 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const PostCard = ({ post, isOwner = false, onEdit, onDelete, onSave, onView }) => {
   const [hover, setHover] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [showTip, setShowTip] = useState(false);
   const styles = {
-    card: { position: 'relative', padding: '14px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: hover ? '0 8px 20px rgba(2,6,23,0.08)' : '0 2px 6px rgba(2,6,23,0.06)', transition: 'transform 160ms ease, box-shadow 160ms ease', transform: hover ? 'scale(1.01)' : 'none' },
+    card: { 
+      position: 'relative', 
+      padding: '24px', 
+      background: '#fff', 
+      border: '1px solid #e2e8f0', 
+      borderRadius: '14px', 
+      boxShadow: '0 4px 12px rgba(0,0,0,0.05)', 
+      transition: 'transform 200ms ease, box-shadow 200ms ease', 
+      transform: hover ? 'translateY(-2px)' : 'none',
+      cursor: 'pointer'
+    },
     header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
     headLeft: { display: 'flex', flexDirection: 'column' },
-    compRole: { fontSize: '13px', fontWeight: 600, color: '#6b7280' },
-    outcomeBadge: (status) => ({ padding: '4px 10px', borderRadius: 999, fontSize: 12, fontWeight: 700, border: '1px solid', background: status === 'Selected' ? '#ecfdf5' : status === 'Rejected' ? '#ffe4e6' : '#f8fafc', color: status === 'Selected' ? '#047857' : status === 'Rejected' ? '#be123c' : '#111827', borderColor: status === 'Selected' ? '#a7f3d0' : status === 'Rejected' ? '#fecdd3' : '#e5e7eb' }),
-    title: { fontSize: '18px', fontWeight: 800, color: '#111827', marginTop: 2 },
-    metaRow: { color: '#6b7280', fontSize: '12px', marginTop: '6px' },
-    desc: { marginTop: '8px', color: '#374151', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' },
+    compRole: { fontSize: '13px', fontWeight: 600, color: '#64748b' },
+    outcomeBadge: (status) => ({ padding: '4px 10px', borderRadius: 999, fontSize: 12, fontWeight: 700, border: '1px solid', background: status === 'Selected' ? '#ecfdf5' : status === 'Rejected' ? '#ffe4e6' : '#f8fafc', color: status === 'Selected' ? '#047857' : status === 'Rejected' ? '#be123c' : '#0f172a', borderColor: status === 'Selected' ? '#a7f3d0' : status === 'Rejected' ? '#fecdd3' : '#e5e7eb' }),
+    title: { fontSize: '18px', fontWeight: 600, color: '#0f172a', marginTop: 2 },
+    metaRow: { color: '#64748b', fontSize: '13px', marginTop: '6px' },
+    desc: { marginTop: '8px', color: '#64748b', fontSize: '15px', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' },
     tagsWrap: { marginTop: '10px' },
     actions: { display: 'flex', gap: '8px', alignItems: 'center' },
     moreBtn: { padding: 6, border: '1px solid #e5e7eb', borderRadius: 8, background: '#fff', cursor: 'pointer' },
     menu: { position: 'absolute', right: 10, top: 42, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, boxShadow: '0 12px 30px rgba(2,6,23,0.06), 0 4px 12px rgba(2,6,23,0.04)', zIndex: 10, minWidth: 140 },
     menuItem: { width: '100%', textAlign: 'left', padding: '8px 10px', background: '#fff', border: 'none', cursor: 'pointer' },
-    saveBtn: { padding: '6px 10px', borderRadius: '6px', border: '1px solid #bbf7d0', background: '#dcfce7', color: '#065f46', cursor: 'pointer' },
-    viewBtn: { padding: '6px 10px', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#111827', background: '#fff', cursor: 'pointer' },
+    saveBtn: { padding: '6px 10px', borderRadius: '10px', border: '1px solid #cbd5e1', background: '#fff', color: '#0f172a', cursor: 'pointer', fontWeight: 500 },
+    viewBtn: { padding: '6px 10px', borderRadius: '10px', border: '1px solid #cbd5e1', color: '#0f172a', background: '#fff', cursor: 'pointer', fontWeight: 500 },
     viewBtnHover: { background: '#f8fafc' },
+    tooltip: { position: 'absolute', top: -34, right: 0, background: '#111827', color: '#fff', fontSize: 12, padding: '6px 8px', borderRadius: 6, boxShadow: '0 8px 20px rgba(2,6,23,0.14)', whiteSpace: 'nowrap', opacity: 0.95 },
   };
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div
-      style={styles.card}
+      style={{
+        ...styles.card,
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? (hover ? 'translateY(-2px)' : 'none') : 'translateY(8px)',
+        boxShadow: mounted ? (hover ? '0 8px 20px rgba(0,0,0,0.08)' : '0 4px 12px rgba(0,0,0,0.05)') : 'none'
+      }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -46,7 +69,18 @@ const PostCard = ({ post, isOwner = false, onEdit, onDelete, onSave, onView }) =
         </div>
         <div style={styles.actions}>
           {post.statusVerdict ? (
-            <span style={styles.outcomeBadge(post.statusVerdict)}>{post.statusVerdict}</span>
+            <span
+              style={{ position: 'relative', display: 'inline-block' }}
+              onMouseEnter={() => setShowTip(true)}
+              onMouseLeave={() => setShowTip(false)}
+            >
+              <span style={styles.outcomeBadge(post.statusVerdict)}>{post.statusVerdict}</span>
+              {showTip && (
+                <span style={styles.tooltip}>
+                  {post.statusVerdict === 'Selected' ? 'This candidate was selected for the role' : post.statusVerdict === 'Rejected' ? 'This candidate was not selected for the role' : `Status: ${post.statusVerdict}`}
+                </span>
+              )}
+            </span>
           ) : null}
           {onSave && (
             <button style={styles.saveBtn} onClick={() => onSave(post)}>Save</button>

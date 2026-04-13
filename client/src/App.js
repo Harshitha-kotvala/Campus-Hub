@@ -22,13 +22,16 @@ const App = () => {
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#f1f5f9',
   };
 
   const contentStyles = {
     flex: 1,
-    padding: '16px',
-    paddingBottom: '56px', // prevent overlap with fixed footer
+    maxWidth: '1100px',
+    margin: '0 auto',
+    padding: '16px 32px 32px 32px', // top/bottom 16px, left/right 32px
+    width: '100%',
+    boxSizing: 'border-box',
   };
 
   return (

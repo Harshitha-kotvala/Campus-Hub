@@ -35,28 +35,101 @@ const AddPost = () => {
   const [step, setStep] = useState(1);
   const [addRoundHover, setAddRoundHover] = useState(false);
 
+  // Validation functions for each step
+  const validateStep1 = () => {
+    const requiredFields = [title, description, companyName, role];
+    const emptyFields = requiredFields.filter(field => !field || field.trim() === '');
+    
+    if (emptyFields.length > 0) {
+      setErrorMsg('Please fill in all required fields: Title, Description, Company, and Role');
+      return false;
+    }
+    setErrorMsg('');
+    return true;
+  };
+
+  const validateStep2 = () => {
+    const requiredFields = [interviewType, difficulty, experience];
+    const emptyFields = requiredFields.filter(field => !field || field.trim() === '');
+    
+    if (emptyFields.length > 0) {
+      setErrorMsg('Please fill in all required fields: Interview Type, Difficulty, and Experience');
+      return false;
+    }
+    setErrorMsg('');
+    return true;
+  };
+
+  const validateStep3 = () => {
+    // Step 3 has no compulsory fields, all are optional
+    setErrorMsg('');
+    return true;
+  };
+
+  const handleNextStep = () => {
+    let isValid = false;
+    
+    switch(step) {
+      case 1:
+        isValid = validateStep1();
+        break;
+      case 2:
+        isValid = validateStep2();
+        break;
+      case 3:
+        isValid = validateStep3();
+        break;
+      default:
+        isValid = false;
+    }
+    
+    if (isValid) {
+      setStep(step + 1);
+    }
+  };
+  const [companyFocused, setCompanyFocused] = useState(false);
+  const [roleFocused, setRoleFocused] = useState(false);
+  const [experienceFocused, setExperienceFocused] = useState(false);
+  const [hiringTypeFocused, setHiringTypeFocused] = useState(false);
+  const [statusFocused, setStatusFocused] = useState(false);
+  const [yearFocused, setYearFocused] = useState(false);
+  const [roundTypeFocused, setRoundTypeFocused] = useState(false);
+  const [difficultyFocused, setDifficultyFocused] = useState(false);
+  const [questionsFocused, setQuestionsFocused] = useState(false);
+  const [roundsNumberFocused, setRoundsNumberFocused] = useState(false);
+  const [problemsFocused, setProblemsFocused] = useState(false);
+  const [locationFocused, setLocationFocused] = useState(false);
+  const [cgpaFocused, setCgpaFocused] = useState(false);
+  const [titleFocused, setTitleFocused] = useState(false);
+  const [descriptionFocused, setDescriptionFocused] = useState(false);
+  const [tipsFocused, setTipsFocused] = useState(false);
+  const [mistakesFocused, setMistakesFocused] = useState(false);
+  const [resourcesFocused, setResourcesFocused] = useState(false);
+
   const styles = {
-    container: { maxWidth: 'clamp(520px, 48vw, 900px)', width: '100%', margin: '24px auto', background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' },
-    title: { fontSize: '26px', fontWeight: 800, color: '#111827', marginBottom: '6px', textAlign: 'center' },
-    subtitle: { fontSize: '14px', color: '#6b7280', textAlign: 'center', marginBottom: 18 },
-    sectionTitle: { fontSize: '16px', fontWeight: 700, color: '#111827', margin: '16px 0 8px' },
-    field: { display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' },
-    label: { fontSize: '14px', color: '#374151' },
-    help: { fontSize: '12px', color: '#6b7280' },
-    input: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb' },
-    textarea: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', minHeight: '120px' },
-    button: { width: '100%', padding: '12px 16px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' },
+    container: { width: '100%', maxWidth: '800px', margin: '0 auto', background: '#fff', padding: '24px', borderRadius: '14px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' },
+    title: { fontSize: '28px', fontWeight: 700, color: '#0f172a', marginBottom: '4px', textAlign: 'center' },
+    subtitle: { fontSize: '15px', lineHeight: 1.6, color: '#64748b', textAlign: 'center', marginBottom: 12 },
+    sectionTitle: { fontSize: '18px', fontWeight: 600, color: '#0f172a', margin: '12px 0 6px' },
+    field: { display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' },
+    label: { fontSize: '13px', color: '#64748b' },
+    help: { fontSize: '13px', color: '#64748b' },
+    input: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
+    textarea: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', minHeight: '120px', fontSize: '15px', lineHeight: 1.6, outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
+    inputFocus: { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' },
+    button: { width: '100%', padding: '10px 18px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' },
     grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
     grid3: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 },
     roundBox: { border: '1px solid #e5e7eb', borderRadius: 10, padding: 12, marginBottom: 10, background: '#f8fafc', boxShadow: '0 1px 2px rgba(0,0,0,0.06)' },
     roundHeader: { display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-between' },
     smallBtn: { padding: '6px 10px', border: '1px solid #e5e7eb', background: '#fff', borderRadius: 8, cursor: 'pointer' },
-    progressWrap: { display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 },
+    progressWrap: { display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12 },
     progressBarTrack: { width: '100%', height: 6, background: '#e5e7eb', borderRadius: 999 },
     progressBarFill: (step) => ({ width: `${((step - 1) / 2) * 100}%`, height: '100%', background: '#6366f1', borderRadius: 999, transition: 'width 200ms ease' }),
     progressLabels: { display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#6b7280', fontWeight: 600 },
     progressLabel: (active) => ({ color: active ? '#111827' : '#6b7280' }),
     navRow: { display: 'flex', justifyContent: 'space-between', gap: 8, marginTop: 12 },
+    navBtn: { padding: '8px 14px', borderRadius: 999, background: '#4f46e5', color: '#fff', fontWeight: 600, cursor: 'pointer', transition: 'all 160ms ease', display: 'flex', alignItems: 'center', gap: 6 },
     addRoundBtn: (hover) => ({ padding: '6px 10px', border: hover ? '1px solid #2563eb' : '1px dashed #93c5fd', background: hover ? '#eff6ff' : '#fff', color: '#2563eb', borderRadius: 8, cursor: 'pointer', transition: 'all 160ms ease' }),
   };
 
@@ -345,12 +418,14 @@ const AddPost = () => {
               </svg>
             </span>
             <input
-              style={{ ...styles.input, paddingLeft: 36 }}
+              style={{ ...styles.input, paddingLeft: 36, ...(companyFocused ? styles.inputFocus : {}) }}
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               list="companyList"
               placeholder="Enter the company name (e.g., Atlassian, Microsoft)"
+              onFocus={() => setCompanyFocused(true)}
+              onBlur={() => setCompanyFocused(false)}
               required
             />
             <datalist id="companyList">
@@ -371,11 +446,13 @@ const AddPost = () => {
               </svg>
             </span>
             <input
-              style={{ ...styles.input, paddingLeft: 36 }}
+              style={{ ...styles.input, paddingLeft: 36, ...(roleFocused ? styles.inputFocus : {}) }}
               type="text"
               value={role}
               onChange={(e) => setRole(e.target.value)}
               placeholder="Software Engineering Intern (Summer 2025)"
+              onFocus={() => setRoleFocused(true)}
+              onBlur={() => setRoleFocused(false)}
               required
             />
           </div>
@@ -385,7 +462,7 @@ const AddPost = () => {
         <div style={styles.grid3}>
           <div style={styles.field}>
             <label style={styles.label}>Experience Level</label>
-            <select style={styles.input} value={experience} onChange={(e) => setExperience(e.target.value)}>
+            <select style={{ ...styles.input, ...(experienceFocused ? styles.inputFocus : {}) }} value={experience} onChange={(e) => setExperience(e.target.value)} onFocus={() => setExperienceFocused(true)} onBlur={() => setExperienceFocused(false)}>
               <option value="">Select experience (optional)</option>
               {experienceOptions.map((opt) => (
                 <option key={opt} value={opt}>{opt}</option>
@@ -394,7 +471,7 @@ const AddPost = () => {
           </div>
           <div style={styles.field}>
             <label style={styles.label}>Interview Type</label>
-            <select style={styles.input} value={hiringType} onChange={(e) => setHiringType(e.target.value)}>
+            <select style={{ ...styles.input, ...(hiringTypeFocused ? styles.inputFocus : {}) }} value={hiringType} onChange={(e) => setHiringType(e.target.value)} onFocus={() => setHiringTypeFocused(true)} onBlur={() => setHiringTypeFocused(false)}>
               <option value="">Select interview type (optional)</option>
               {hiringTypes.map((opt) => (
                 <option key={opt} value={opt}>{opt}</option>
@@ -403,7 +480,7 @@ const AddPost = () => {
           </div>
           <div style={styles.field}>
             <label style={styles.label}>Outcome</label>
-            <select style={styles.input} value={statusVerdict} onChange={(e) => setStatusVerdict(e.target.value)}>
+            <select style={{ ...styles.input, ...(statusFocused ? styles.inputFocus : {}) }} value={statusVerdict} onChange={(e) => setStatusVerdict(e.target.value)} onFocus={() => setStatusFocused(true)} onBlur={() => setStatusFocused(false)}>
               <option value="">Select verdict (optional)</option>
               {statusOptions.map((opt) => (
                 <option key={opt} value={opt}>{opt}</option>
@@ -413,7 +490,7 @@ const AddPost = () => {
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Year / Batch</label>
-          <select style={styles.input} value={yearBatch} onChange={(e) => setYearBatch(e.target.value)}>
+          <select style={{ ...styles.input, ...(yearFocused ? styles.inputFocus : {}) }} value={yearBatch} onChange={(e) => setYearBatch(e.target.value)} onFocus={() => setYearFocused(true)} onBlur={() => setYearFocused(false)}>
             <option value="">Select year (optional)</option>
             {yearOptions.map((opt) => (
               <option key={opt} value={opt}>{opt}</option>
@@ -436,7 +513,7 @@ const AddPost = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 10 }}>
                 <div style={styles.field}>
                   <label style={styles.label}>Round Type</label>
-                  <select style={styles.input} value={r.type} onChange={(e) => updateRound(idx, 'type', e.target.value)}>
+                  <select style={{ ...styles.input, ...(roundTypeFocused ? styles.inputFocus : {}) }} value={r.type} onChange={(e) => updateRound(idx, 'type', e.target.value)} onFocus={() => setRoundTypeFocused(true)} onBlur={() => setRoundTypeFocused(false)}>
                     <option value="">Select type</option>
                     {roundTypeOptions.map((opt) => (
                       <option key={opt} value={opt}>{opt}</option>
@@ -476,9 +553,11 @@ const AddPost = () => {
                 <div style={styles.field}>
                   <label style={styles.label}>Questions Asked (Markdown supported)</label>
                   <textarea
-                    style={styles.textarea}
+                    style={{ ...styles.textarea, ...(questionsFocused ? styles.inputFocus : {}) }}
                     value={r.questions}
                     onChange={(e) => updateRound(idx, 'questions', e.target.value)}
+                    onFocus={() => setQuestionsFocused(true)}
+                    onBlur={() => setQuestionsFocused(false)}
                     placeholder={"e.g.\nImplement LRU Cache\nSQL: top-N per group\nBehavioral: conflict resolution"}
                   />
                 </div>
@@ -501,25 +580,29 @@ const AddPost = () => {
           <div style={styles.field}>
             <label style={styles.label}>Number of Rounds</label>
             <input
-              style={styles.input}
+              style={{ ...styles.input, ...(roundsNumberFocused ? styles.inputFocus : {}) }}
               type="number"
               min="0"
               inputMode="numeric"
               value={numberOfRounds}
               onChange={(e) => setNumberOfRounds(e.target.value)}
               placeholder="e.g., 2"
+              onFocus={() => setRoundsNumberFocused(true)}
+              onBlur={() => setRoundsNumberFocused(false)}
             />
           </div>
           <div style={styles.field}>
             <label style={styles.label}>Number of Problems</label>
             <input
-              style={styles.input}
+              style={{ ...styles.input, ...(problemsFocused ? styles.inputFocus : {}) }}
               type="number"
               min="0"
               inputMode="numeric"
               value={numberOfProblems}
               onChange={(e) => setNumberOfProblems(e.target.value)}
               placeholder="e.g., 4"
+              onFocus={() => setProblemsFocused(true)}
+              onBlur={() => setProblemsFocused(false)}
             />
           </div>
         </div>
@@ -527,17 +610,19 @@ const AddPost = () => {
           <div style={styles.field}>
             <label style={styles.label}>Location</label>
             <input
-              style={styles.input}
+              style={{ ...styles.input, ...(locationFocused ? styles.inputFocus : {}) }}
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="City or Remote (e.g., Bengaluru, Hyderabad, Remote)"
+              onFocus={() => setLocationFocused(true)}
+              onBlur={() => setLocationFocused(false)}
             />
           </div>
           <div style={styles.field}>
             <label style={styles.label}>CGPA Cutoff</label>
             <input
-              style={styles.input}
+              style={{ ...styles.input, ...(cgpaFocused ? styles.inputFocus : {}) }}
               type="number"
               min="0"
               max="10"
@@ -546,6 +631,8 @@ const AddPost = () => {
               value={cgpaCutoff}
               onChange={(e) => setCgpaCutoff(e.target.value)}
               placeholder="e.g., 7.5"
+              onFocus={() => setCgpaFocused(true)}
+              onBlur={() => setCgpaFocused(false)}
             />
           </div>
         </div>
@@ -557,23 +644,27 @@ const AddPost = () => {
         <div style={styles.field}>
           <label style={styles.label}>Title <span style={{ color: '#EF4444' }}>*</span></label>
           <input
-            style={styles.input}
+            style={{ ...styles.input, ...(titleFocused ? styles.inputFocus : {}) }}
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., My ABC Corp SDE Interview Experience"
             minLength={5}
+            onFocus={() => setTitleFocused(true)}
+            onBlur={() => setTitleFocused(false)}
             required
           />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Short Description & Personal Insights <span style={{ color: '#EF4444' }}>*</span></label>
           <textarea
-            style={styles.textarea}
+            style={{ ...styles.textarea, ...(descriptionFocused ? styles.inputFocus : {}) }}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Briefly describe the overall process and what you learned or would do differently."
             minLength={20}
+            onFocus={() => setDescriptionFocused(true)}
+            onBlur={() => setDescriptionFocused(false)}
             required
           />
         </div>
@@ -583,19 +674,23 @@ const AddPost = () => {
         <div style={styles.field}>
           <label style={styles.label}>Preparation Tips</label>
           <textarea
-            style={styles.textarea}
+            style={{ ...styles.textarea, ...(tipsFocused ? styles.inputFocus : {}) }}
             value={preparationTips}
             onChange={(e) => setPreparationTips(e.target.value)}
             placeholder="Share what actually helped you prepare (study plan, mock interviews, must-do topics)."
+            onFocus={() => setTipsFocused(true)}
+            onBlur={() => setTipsFocused(false)}
           />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Mistakes / Lessons</label>
           <textarea
-            style={styles.textarea}
+            style={{ ...styles.textarea, ...(mistakesFocused ? styles.inputFocus : {}) }}
             value={mistakesLessons}
             onChange={(e) => setMistakesLessons(e.target.value)}
             placeholder="What would you do differently next time? Any pitfalls to avoid?"
+            onFocus={() => setMistakesFocused(true)}
+            onBlur={() => setMistakesFocused(false)}
           />
         </div>
         <div style={styles.field}>
@@ -623,10 +718,12 @@ const AddPost = () => {
         <div style={styles.field}>
           <label style={styles.label}>Resources Used (links, one per line)</label>
           <textarea
-            style={styles.textarea}
+            style={{ ...styles.textarea, ...(resourcesFocused ? styles.inputFocus : {}) }}
             value={resources}
             onChange={(e) => setResources(e.target.value)}
             placeholder={"Paste links to LeetCode problems or YouTube playlists that helped you."}
+            onFocus={() => setResourcesFocused(true)}
+            onBlur={() => setResourcesFocused(false)}
           />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
@@ -638,10 +735,16 @@ const AddPost = () => {
 
         <div style={styles.navRow}>
           {step > 1 ? (
-            <button type="button" style={styles.smallBtn} onClick={() => setStep(step - 1)}>Back</button>
+            <button type="button" style={styles.navBtn} onClick={() => setStep(step - 1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <span>Back</span>
+            </button>
           ) : <span />}
           {step < 3 ? (
-            <button type="button" style={{ ...styles.smallBtn, background: '#2563eb', color: '#fff', border: 'none' }} onClick={() => setStep(step + 1)}>Next</button>
+            <button type="button" style={{ ...styles.navBtn, background: '#4f46e5' }} onClick={() => setStep(step + 1)}>
+              <span>Next</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18l6-6 6-6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
           ) : null}
         </div>
 

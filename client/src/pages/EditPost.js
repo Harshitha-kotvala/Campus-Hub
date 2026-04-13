@@ -23,15 +23,25 @@ const EditPost = () => {
   const [numberOfRounds, setNumberOfRounds] = useState('');
   const [numberOfProblems, setNumberOfProblems] = useState('');
   const [tags, setTags] = useState('');
+  const [titleFocused, setTitleFocused] = useState(false);
+  const [companyFocused, setCompanyFocused] = useState(false);
+  const [roleFocused, setRoleFocused] = useState(false);
+  const [experienceFocused, setExperienceFocused] = useState(false);
+  const [roundsFocused, setRoundsFocused] = useState(false);
+  const [problemsFocused, setProblemsFocused] = useState(false);
+  const [interviewTypeFocused, setInterviewTypeFocused] = useState(false);
+  const [difficultyFocused, setDifficultyFocused] = useState(false);
+  const [tagsFocused, setTagsFocused] = useState(false);
 
   const styles = {
-    container: { maxWidth: 'clamp(520px, 48vw, 900px)', width: '100%', margin: '24px auto', background: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' },
-    title: { fontSize: '24px', fontWeight: 800, color: '#111827', marginBottom: '12px', textAlign: 'center' },
-    field: { display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' },
-    label: { fontSize: '14px', color: '#374151' },
-    input: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb' },
-    textarea: { padding: '10px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', minHeight: '100px' },
-    button: { width: '100%', padding: '10px 14px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' },
+    container: { width: '100%', margin: '300 auto', background: '#fff', padding: '24px', borderRadius: '14px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' },
+    title: { fontSize: '28px', fontWeight: 700, color: '#0f172a', marginBottom: '8px', textAlign: 'center' },
+    field: { display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' },
+    label: { fontSize: '13px', color: '#64748b' },
+    input: { padding: '10px 12px', fontSize: '15px', lineHeight: 1.6, borderRadius: '8px', border: '1px solid #e5e7eb', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
+    textarea: { padding: '10px 12px', fontSize: '15px', lineHeight: 1.6, borderRadius: '8px', border: '1px solid #e5e7eb', minHeight: '100px', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms' },
+    inputFocus: { borderColor: '#3b82f6', boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)' },
+    button: { width: '100%', padding: '10px 18px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', transition: 'background-color 160ms ease, box-shadow 160ms ease' },
   };
 
   const difficultyOptions = ['Easy', 'Medium', 'Hard', 'Medium-Hard'];
@@ -136,23 +146,23 @@ const EditPost = () => {
       <form onSubmit={onSubmit}>
         <div style={styles.field}>
           <label style={styles.label}>Title</label>
-          <input style={styles.input} type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <input style={{ ...styles.input, ...(titleFocused ? styles.inputFocus : {}) }} type="text" value={title} onChange={(e) => setTitle(e.target.value)} onFocus={() => setTitleFocused(true)} onBlur={() => setTitleFocused(false)} required />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Short Description & Personal Insights</label>
-          <textarea style={styles.textarea} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Share a brief overview and your personal insights (e.g., Don't panic...)" required />
+          <textarea style={{ ...styles.textarea, ...(description ? styles.inputFocus : {}) }} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Share a brief overview and your personal insights (e.g., Don't panic...)" required />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Company Name</label>
-          <input style={styles.input} type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+          <input style={{ ...styles.input, ...(companyFocused ? styles.inputFocus : {}) }} type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} onFocus={() => setCompanyFocused(true)} onBlur={() => setCompanyFocused(false)} />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Role</label>
-          <input style={styles.input} type="text" value={role} onChange={(e) => setRole(e.target.value)} />
+          <input style={{ ...styles.input, ...(roleFocused ? styles.inputFocus : {}) }} type="text" value={role} onChange={(e) => setRole(e.target.value)} onFocus={() => setRoleFocused(true)} onBlur={() => setRoleFocused(false)} />
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Experience</label>
-          <select style={styles.input} value={experience} onChange={(e) => setExperience(e.target.value)}>
+          <select style={{ ...styles.input, ...(experienceFocused ? styles.inputFocus : {}) }} value={experience} onChange={(e) => setExperience(e.target.value)} onFocus={() => setExperienceFocused(true)} onBlur={() => setExperienceFocused(false)}>
             <option value="">Select experience (optional)</option>
             {experienceOptions.map((opt) => (
               <option key={opt} value={opt}>{opt}</option>
@@ -162,16 +172,16 @@ const EditPost = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div style={styles.field}>
             <label style={styles.label}>Number of Rounds</label>
-            <input style={styles.input} type="number" min="0" value={numberOfRounds} onChange={(e) => setNumberOfRounds(e.target.value)} placeholder="e.g., 1, 2, 3" />
+            <input style={{ ...styles.input, ...(roundsFocused ? styles.inputFocus : {}) }} type="number" min="0" value={numberOfRounds} onChange={(e) => setNumberOfRounds(e.target.value)} placeholder="e.g., 1, 2, 3" onFocus={() => setRoundsFocused(true)} onBlur={() => setRoundsFocused(false)} />
           </div>
           <div style={styles.field}>
             <label style={styles.label}>Number of Problems</label>
-            <input style={styles.input} type="number" min="0" value={numberOfProblems} onChange={(e) => setNumberOfProblems(e.target.value)} placeholder="e.g., 1, 2, 3" />
+            <input style={{ ...styles.input, ...(problemsFocused ? styles.inputFocus : {}) }} type="number" min="0" value={numberOfProblems} onChange={(e) => setNumberOfProblems(e.target.value)} placeholder="e.g., 1, 2, 3" onFocus={() => setProblemsFocused(true)} onBlur={() => setProblemsFocused(false)} />
           </div>
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Interview Type</label>
-          <select style={styles.input} value={interviewType} onChange={(e) => setInterviewType(e.target.value)}>
+          <select style={{ ...styles.input, ...(interviewTypeFocused ? styles.inputFocus : {}) }} value={interviewType} onChange={(e) => setInterviewType(e.target.value)} onFocus={() => setInterviewTypeFocused(true)} onBlur={() => setInterviewTypeFocused(false)}>
             <option value="">Select interview type (optional)</option>
             {interviewTypes.map((opt) => (
               <option key={opt} value={opt}>{opt}</option>
@@ -188,11 +198,7 @@ const EditPost = () => {
         </div>
         <div style={styles.field}>
           <label style={styles.label}>Difficulty</label>
-          <select
-            style={styles.input}
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-          >
+          <select style={{ ...styles.input, ...(difficultyFocused ? styles.inputFocus : {}) }} value={difficulty} onChange={(e) => setDifficulty(e.target.value)} onFocus={() => setDifficultyFocused(true)} onBlur={() => setDifficultyFocused(false)}>
             <option value="">Select difficulty (optional)</option>
             {difficultyOptions.map((opt) => (
               <option key={opt} value={opt}>{opt}</option>
