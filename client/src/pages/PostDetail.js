@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const PostDetail = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`/api/posts/${id}`);
+        const res = await fetch(`${API_ENDPOINTS.POSTS}/${id}`);
         if (!res.ok) throw new Error('Failed to load post');
         const data = await res.json();
         setPost(data);

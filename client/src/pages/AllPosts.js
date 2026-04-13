@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 import PostCard from '../components/PostCard';
 
 const AllPosts = () => {
@@ -21,7 +22,7 @@ const AllPosts = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/posts');
+        const res = await fetch(API_ENDPOINTS.POSTS);
         if (!res.ok) throw new Error('Failed to load posts');
         const data = await res.json();
         setPosts(Array.isArray(data) ? data : []);
@@ -113,7 +114,7 @@ const AllPosts = () => {
         return;
       }
       const token = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
-      const res = await fetch('/api/posts/save', {
+      const res = await fetch(`${API_ENDPOINTS.POSTS}/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +134,7 @@ const AllPosts = () => {
     if (!window.confirm('Delete this post?')) return;
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
-      const res = await fetch(`/api/posts/${post._id}`, {
+      const res = await fetch(`${API_ENDPOINTS.POSTS}/${post._id}`, {
         method: 'DELETE',
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });

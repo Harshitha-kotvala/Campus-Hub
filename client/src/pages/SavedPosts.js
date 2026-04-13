@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 import PostCard from '../components/PostCard';
 
 const SavedPosts = () => {
@@ -48,7 +49,7 @@ const SavedPosts = () => {
       const token = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
       if (!token) { setLoading(false); return; }
       try {
-        const res = await fetch('/api/posts/saved', {
+        const res = await fetch(`${API_ENDPOINTS.POSTS}/saved`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config/api';
 import PostCard from '../components/PostCard';
 
 const MyPosts = () => {
@@ -56,7 +57,7 @@ const MyPosts = () => {
     const loadMine = async () => {
       if (!currentEmail) { setLoading(false); return; }
       try {
-        const res = await fetch(`/api/posts?createdByEmail=${encodeURIComponent(currentEmail)}`);
+        const res = await fetch(`${API_ENDPOINTS.POSTS}?createdByEmail=${encodeURIComponent(currentEmail)}`);
         if (!res.ok) throw new Error('Failed to load my posts');
         const data = await res.json();
         setPosts(data || []);
@@ -73,7 +74,7 @@ const MyPosts = () => {
     if (!window.confirm('Delete this post?')) return;
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
-      const res = await fetch(`/api/posts/${post._id}`, {
+      const res = await fetch(`${API_ENDPOINTS.POSTS}/${post._id}`, {
         method: 'DELETE',
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });

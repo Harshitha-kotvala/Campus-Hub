@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -45,7 +46,7 @@ const Login = () => {
     try {
       setError('');
       setLoading(true);
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post(`${API_ENDPOINTS.AUTH}/login`, { email, password });
       // Expecting { token, user: { name, email, ... } }
       const { token, user } = res.data || {};
       if (!token || !user) throw new Error('Invalid login response');

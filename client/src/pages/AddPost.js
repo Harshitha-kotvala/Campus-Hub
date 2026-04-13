@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const AddPost = () => {
   const [title, setTitle] = useState('');
@@ -343,7 +344,7 @@ const AddPost = () => {
       };
       // Include JWT token if present (e.g., saved during login)
       const token = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
-      await axios.post('/api/posts', body, {
+      await axios.post(API_ENDPOINTS.POSTS, body, {
         headers: {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),

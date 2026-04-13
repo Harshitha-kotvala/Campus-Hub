@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const EditPost = () => {
   const { id } = useParams();
@@ -68,7 +69,7 @@ const EditPost = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/posts/${id}`);
+        const res = await axios.get(`${API_ENDPOINTS.POSTS}/${id}`);
         const p = res.data;
         setTitle(p.title || '');
         setDescription(p.description || '');
@@ -122,7 +123,7 @@ const EditPost = () => {
           .filter(Boolean),
       };
 
-      await axios.put(`/api/posts/${id}`, body, {
+      await axios.put(`${API_ENDPOINTS.POSTS}/${id}`, body, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

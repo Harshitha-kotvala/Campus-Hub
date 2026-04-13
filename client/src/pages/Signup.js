@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -49,7 +50,7 @@ const Signup = () => {
         startYear: Number(startYear) || undefined,
         passOutYear: Number(passOutYear) || undefined,
       };
-      await axios.post('/api/auth/signup', payload);
+      await axios.post(`${API_ENDPOINTS.AUTH}/signup`, payload);
       // After successful signup, redirect to login and ask the user to log in
       navigate('/login', { state: { flash: 'Signup successful. Please log in to continue.' } });
     } catch (err) {
