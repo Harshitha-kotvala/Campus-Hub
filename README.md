@@ -2,29 +2,37 @@
 
 A full‑stack web app for sharing and exploring campus interview experiences and resources.
 
+## 🚀 Live Deployment
+
+- **Frontend**: https://campus-hub-blue.vercel.app
+- **Backend**: https://campus-hub-server-zyue.onrender.com
+
+## 🛠️ Tech Stack
+
 - **Frontend (`client/`)**: React 18 + Vite with React Router
 - **Backend (`server/`)**: Node.js + Express + MongoDB (Mongoose)
 - **Auth**: JWT-based
 - **Proxy**: Vite dev server proxies `/api` to backend
 
-## Directory structure
+## 📁 Directory structure
 
 ```
 Campus Hub/
 ├─ client/            # React + Vite app
 │  ├─ src/
+│  │  ├─ components/   # Reusable UI components
+│  │  ├─ pages/       # Route components
+│  │  └─ config/       # API configuration
 │  ├─ package.json    # dev/build/preview scripts
 │  └─ vite.config.js  # `/api` → http://localhost:5000 proxy
 ├─ server/            # Express API server
 │  ├─ routes/         # `auth.js`, `posts.js`
 │  ├─ models/         # `User.js`, `Post.js`
-│  ├─ middleware/     # `auth.js` for JWT
-│  ├─ server.js       # App entry (PORT default 5000)
-│  └─ package.json    # start script
-└─ README.md
+│  └─ .env           # Environment variables (MONGO_URI, JWT_SECRET)
+└─ README.md          # This file
 ```
 
-## Prerequisites
+## 🚀 Quick Start
 
 - Node.js 18+ and npm
 - A MongoDB database (local or cloud)

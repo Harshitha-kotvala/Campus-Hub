@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test - CampusHub</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test { margin: 10px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>CampusHub API Test</h1>
+    <div id="results"></div>
+    
+    <div class="test">
+        <h3>Testing API Configuration</h3>
+        <p>API_BASE_URL: <span id="api-url">Loading...</span></p>
+        <p>VITE_API_URL: <span id="env-url">Loading...</span></p>
+    </div>
+    
+    <div class="test">
+        <h3>Testing API Endpoints</h3>
+        <button onclick="testHealth()">Test Health</button>
+        <button onclick="testAuth()">Test Auth</button>
+        <button onclick="testPosts()">Test Posts</button>
+    </div>
+
+<script>
+    // Display current configuration
+    document.getElementById('api-url').textContent = import.meta.env.VITE_API_URL || 'Not set';
+    document.getElementById('env-url').textContent = import.meta.env.VITE_API_URL || 'Not set';
+    
+    async function testHealth() {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/health`);
+            const data = await response.json();
+            document.getElementById('results').innerHTML += '<div class="success">✅ Health: ' + JSON.stringify(data) + '</div>';
+        } catch (error) {
+            document.getElementById('results').innerHTML += '<div class="error">❌ Health Failed: ' + error.message + '</div>';
+        }
+    }
+    
+    async function testAuth() {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/health`);
+            const data = await response.json();
+            document.getElementById('results').innerHTML += '<div class="success">✅ Auth Health: ' + JSON.stringify(data) + '</div>';
+        } catch (error) {
+            document.getElementById('results').innerHTML += '<div class="error">❌ Auth Health Failed: ' + error.message + '</div>';
+        }
+    }
+    
+    async function testPosts() {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/posts`);
+            const data = await response.json();
+            document.getElementById('results').innerHTML += '<div class="success">✅ Posts: ' + JSON.stringify(data).slice(0, 100) + '...</div>';
+        } catch (error) {
+            document.getElementById('results').innerHTML += '<div class="error">❌ Posts Failed: ' + error.message + '</div>';
+        }
+    }
+</script>
+</body>
+</html>
