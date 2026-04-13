@@ -14,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   origin: [
+    "https://campus-hub-blue.vercel.app",
     "https://campushub.vercel.app",
     "http://localhost:3000",
     "http://localhost:5173"
